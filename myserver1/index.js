@@ -37,7 +37,15 @@ app.use(
   })
 );
 // app.use(cors({ origin: "*" }));
-app.use(cors({ origin: "https://scriptiq-ehqm.onrender.com" }));
+//app.use(cors({ origin: "https://scriptiq-ehqm.onrender.com" }));
+app.use(
+  cors({
+    origin: ["https://scriptiq-ehqm.onrender.com", "http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    credentials: true, // Allow cookies/auth headers
+  })
+);
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // =====================
@@ -326,9 +334,16 @@ app.post("/employee/create", protect, async (req, res) => {
 // =====================
 // SOCKET.IO SETUP
 // =====================
+// const io = new Server(server, {
+//   cors: {
+//     origin: ["https://scriptiq-ehqm.onrender.com"],
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   },
+// });
 const io = new Server(server, {
   cors: {
-    origin: ["https://scriptiq-ehqm.onrender.com"],
+    origin: ["https://scriptiq-ehqm.onrender.com", "http://localhost:5173"],
     methods: ["GET", "POST"],
     credentials: true,
   },
