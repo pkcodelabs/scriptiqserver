@@ -13,7 +13,7 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 
 // Import models
-const { User, Story, Message } = require("./models/user");
+const { User, Story, Message, Payment } = require("./models/user");
 
 dotenv.config({ path: "./config.env" });
 
@@ -328,6 +328,54 @@ app.post("/employee/create", protect, async (req, res) => {
   } catch (err) {
     console.error("❌ Error creating user:", err);
     res.status(400).json({ message: err.message });
+  }
+});
+
+// POST - create payment
+
+app.post("/paid", async (req, res) => {
+  try {
+    const { storyId, receiptId, from, storyImg, title, rating } = req.body;
+
+    // Create new payment
+    const newPayment = new Payment({
+      storyId,
+      title,
+      from,
+      storyImg,
+      rating,
+      receiptId,
+    });
+
+    // Save payment
+    const savedPayment = await newPayment.save();
+    res.status(201).json(savedPayment);
+  } catch (err) {
+    console.error("❌ Error creating payment:", err);
+    res.status(500).json({ message: "Failed to create payment" });
+  }
+});
+
+// GET - get all payments
+app.get("/paid", async (req, res) => {
+  try {
+    const payments = await Payment.find().sort({ date: -1 });
+    res.status(200).json(payments);
+  } catch (err) {
+    console.error("❌ Error fetching payments:", err);
+    res.status(500).json({ message: "Failed to fetch payments" });
+  }
+});
+
+// GET - get single payment by receiptId
+app.get("/paid/:receiptId", async (req, res) => {
+  try {
+    const payment = await Payment.findOne({ receiptId: req.params.receiptId });
+    if (!payment) return res.status(404).json({ message: "Payment not found" });
+    res.status(200).json(payment);
+  } catch (err) {
+    console.error("❌ Error fetching payment:", err);
+    res.status(500).json({ message: "Failed to fetch payment" });
   }
 });
 

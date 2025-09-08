@@ -120,11 +120,41 @@ const MessageSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+const paymentSchema = new mongoose.Schema(
+  {
+    storyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Story",
+      required: true,
+    },
+    title: { type: String, required: true },
+    from: { type: String, required: true },
+    rating: { type: Number, required: true },
+
+    // Fixed info
+    amount: { type: Number, default: 100 },
+    paymentMethod: { type: String, default: "Razorpay" },
+    purpose: { type: String, default: "Story Submission Fee" },
+    authorisedBy: { type: String, default: "Pavan Kumar" },
+
+    logoUrl: { type: String, default: "images/scriptiqlogo2.png" },
+    storyImg: { type: String, default: "images/scriptiqlogo1.jpg" },
+
+    email: { type: String, default: "scriptiq.support@company.com" },
+    phone: { type: String, default: "+91-9876543210" },
+    companyName: { type: String, default: "SCRIPT IQ" },
+
+    receiptId: { type: String, required: true, unique: true },
+    date: { type: Date, default: Date.now },
+  },
+  { timestamps: true }
+);
 
 // =====================
 // Export Models
 // =====================
 module.exports = {
+  Payment: mongoose.model("Payment", paymentSchema),
   User: mongoose.model("User", UserSchema),
   Message: mongoose.model("Message", MessageSchema),
   Story: mongoose.model("Story", StorySchema),
