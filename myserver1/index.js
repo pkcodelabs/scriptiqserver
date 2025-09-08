@@ -423,13 +423,14 @@ io.on("connection", (socket) => {
       console.log("userid", user.id);
       console.log(isCreator, user.role);
       const isEmployee = user.role === "employee";
+      const isAdmin = user.role === "admin";
 
       if (socket.rooms.has(storyId)) {
         socket.emit("error", { message: "Already joined this room" });
         return;
       }
 
-      if (isCreator || isEmployee) {
+      if (isCreator || isEmployee || isAdmin) {
         socket.join(storyId);
         addNewUser(user.id, socket.id);
 
@@ -459,6 +460,7 @@ io.on("connection", (socket) => {
 
   // chat messages
   socket.on("message", (msg) => {
+    console.log(msg);
     console.log("💬 Message:", msg);
     io.to(msg.storyId).emit("message", msg);
   });
