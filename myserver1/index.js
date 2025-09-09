@@ -391,7 +391,11 @@ app.get("/paid/:receiptId", async (req, res) => {
 // });
 const io = new Server(server, {
   cors: {
-    origin: ["https://scriptiq-ehqm.onrender.com", "http://localhost:5173"],
+    origin: [
+      "https://scriptiq-ehqm.onrender.com",
+      "http://localhost:5173",
+      "https://accounter-ajdb.onrender.com",
+    ],
     methods: ["GET", "POST"],
     credentials: true,
   },
