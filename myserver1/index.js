@@ -40,7 +40,11 @@ app.use(
 //app.use(cors({ origin: "https://scriptiq-ehqm.onrender.com" }));
 app.use(
   cors({
-    origin: ["https://scriptiq-ehqm.onrender.com", "http://localhost:5173"],
+    origin: [
+      "https://scriptiq-ehqm.onrender.com",
+      "http://localhost:5173",
+      "https://accounter-ajdb.onrender.com",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true, // Allow cookies/auth headers
   })
