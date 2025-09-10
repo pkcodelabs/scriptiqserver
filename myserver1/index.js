@@ -396,7 +396,7 @@ const io = new Server(server, {
       "http://localhost:5173",
       "https://accounter-ajdb.onrender.com",
     ],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT"],
     credentials: true,
   },
 });
